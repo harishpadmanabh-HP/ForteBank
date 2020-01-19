@@ -1,12 +1,15 @@
 package com.hp.fortebank;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.harishpadmanabh.apppreferences.AppPreferences;
+import com.hp.fortebank.Dashboard.Withdraw;
 
 public class Home extends AppCompatActivity {
 
@@ -46,5 +49,9 @@ public class Home extends AppCompatActivity {
         withdrawCard = (CardView) findViewById(R.id.withdrawCard);
         transactionsCard = (CardView) findViewById(R.id.transactionsCard);
         benificarycard = (CardView) findViewById(R.id.benificarycard);
+    }
+
+    public void withDrawClicked(View view) {
+        startActivity(new Intent(Home.this, Withdraw.class));
     }
 }
