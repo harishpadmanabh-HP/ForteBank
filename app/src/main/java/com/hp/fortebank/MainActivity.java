@@ -37,15 +37,16 @@ public class MainActivity extends AppCompatActivity {
 
                 // Close SplashScreenActivity.class
 
-                finish();
+                   finish();
+                   startActivity(new Intent(getApplicationContext(),Login.class));
 
-                if(!loged) {
-                    Intent myIntent = new Intent(getApplicationContext(),
-                            Login.class);
-                    startActivity(myIntent);
-                }else{
-                    startActivity(new Intent(getApplicationContext(),Home.class));
-                }
+//                if(!loged) {
+//                    Intent myIntent = new Intent(getApplicationContext(),
+//                            Login.class);
+//                    startActivity(myIntent);
+//                }else{
+//                    startActivity(new Intent(getApplicationContext(),Home.class));
+//                }
             }
         };
 

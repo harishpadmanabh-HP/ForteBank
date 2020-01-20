@@ -204,7 +204,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/josefin_bold"
-                android:text="Add Beneficiary"
+                android:text=" Beneficiary"
                 android:textColor="#2962FF"
                 android:textSize="22dp" />
         </LinearLayout>

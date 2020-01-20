@@ -57,7 +57,7 @@ public class Home extends AppCompatActivity {
     }
 
     public void benificiaryClicked(View view) {
-        startActivity(new Intent(Home.this, Benificiary.class));
+        startActivity(new Intent(Home.this, Benlist.class));
 
     }
 }
