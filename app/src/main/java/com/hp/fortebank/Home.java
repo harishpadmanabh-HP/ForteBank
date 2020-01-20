@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.harishpadmanabh.apppreferences.AppPreferences;
+import com.hp.fortebank.Dashboard.Benificiary;
 import com.hp.fortebank.Dashboard.Withdraw;
 
 public class Home extends AppCompatActivity {
@@ -36,7 +37,7 @@ public class Home extends AppCompatActivity {
         Name.setText("Welcome "+appPreferences.getData("uname"));
         Accnum.setText("Acc No. "+appPreferences.getData("uaccno"));
         Phnnum.setText("Phone No. "+appPreferences.getData("uphone"));
-        AccBal.setText("Account Balance : "+appPreferences.getData("ubal"+" Rs"));
+        AccBal.setText("Account Balance : "+appPreferences.getData("ubal")+" Rs");
 
 
     }
@@ -53,5 +54,10 @@ public class Home extends AppCompatActivity {
 
     public void withDrawClicked(View view) {
         startActivity(new Intent(Home.this, Withdraw.class));
+    }
+
+    public void benificiaryClicked(View view) {
+        startActivity(new Intent(Home.this, Benificiary.class));
+
     }
 }

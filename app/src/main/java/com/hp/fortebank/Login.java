@@ -3,6 +3,7 @@ package com.hp.fortebank;
 import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -64,8 +65,10 @@ public class Login extends AppCompatActivity {
                          appPreferences.saveData("upin",loginModel.getUser_data().getPin());
                          appPreferences.saveData("ubal",loginModel.getUser_data().getBalance());
                          appPreferences.saveData("uaccno",loginModel.getUser_data().getAccount_num());
-                        appPreferences.saveDataBoolean("isloggedin",isloggedin);
 
+                         appPreferences.saveDataBoolean("isloggedin",isloggedin);
+
+                         Log.e("ACC BAL",appPreferences.getData("ubal"));
                          Toast.makeText(Login.this, "Login success", Toast.LENGTH_SHORT).show();
                          startActivity(new Intent(Login.this,Home.class));
 
