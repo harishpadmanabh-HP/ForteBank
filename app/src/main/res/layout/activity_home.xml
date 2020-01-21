@@ -218,6 +218,7 @@
         android:layout_height="0dp"
         android:layout_margin="15dp"
         android:clickable="true"
+        android:onClick="setttingsClick"
         app:cardCornerRadius="30dp"
         android:translationZ="30dp"
         app:layout_constraintBottom_toBottomOf="parent"

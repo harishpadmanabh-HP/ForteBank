@@ -12,6 +12,7 @@ import androidx.cardview.widget.CardView;
 import com.harishpadmanabh.apppreferences.AppPreferences;
 import com.hp.fortebank.Dashboard.Benificiary;
 import com.hp.fortebank.Dashboard.History;
+import com.hp.fortebank.Dashboard.Settings;
 import com.hp.fortebank.Dashboard.Withdraw;
 
 import dmax.dialog.SpotsDialog;
@@ -73,6 +74,12 @@ public class Home extends AppCompatActivity {
 
     public void transactionClick(View view) {
         startActivity(new Intent(Home.this, History.class));
+
+    }
+
+    public void setttingsClick(View view) {
+        startActivity(new Intent(Home.this, Settings.class));
+
 
     }
 }
