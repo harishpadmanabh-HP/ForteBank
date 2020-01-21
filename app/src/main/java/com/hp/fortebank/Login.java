@@ -1,5 +1,6 @@
 package com.hp.fortebank;
 
+import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import com.harishpadmanabh.apppreferences.AppPreferences;
 import com.hp.fortebank.Retro.Retro;
 import com.hp.fortebank.models.LoginModel;
 
+import dmax.dialog.SpotsDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,6 +32,7 @@ public class Login extends AppCompatActivity {
     String uid;
     AppPreferences appPreferences;
     Boolean isloggedin=false;
+    private AlertDialog pd;
 
 
     @Override
@@ -37,17 +40,21 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initView();
-         appPreferences = AppPreferences.getInstance(this, getResources().getString(R.string.app_name));
+        pd = new SpotsDialog(this,R.style.CustomAlert);
+
+        appPreferences = AppPreferences.getInstance(this, getResources().getString(R.string.app_name));
 
     }
 
     public void signinClick(View view) {
+
         if(phnEditText.getText().toString().equals("")||
            pinEditText.getText().toString().equals(""))
         {
             showError();
             Toast.makeText(Login.this, "Fill all fields.", Toast.LENGTH_SHORT).show();
         }else{
+            pd.show();
             new Retro().getApi().LOGIN_MODEL_CALL(
                     pinEditText.getText().toString(),
                     phnEditText.getText().toString()
@@ -69,18 +76,20 @@ public class Login extends AppCompatActivity {
                          appPreferences.saveDataBoolean("isloggedin",isloggedin);
 
                          Log.e("ACC BAL",appPreferences.getData("ubal"));
+                         pd.dismiss();
                          Toast.makeText(Login.this, "Login success", Toast.LENGTH_SHORT).show();
                          startActivity(new Intent(Login.this,Home.class));
 
                     }else
                     {
+                        pd.dismiss();
                         Toast.makeText(Login.this, "Login Failed. Please check your credentials.", Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<LoginModel> call, Throwable t) {
-
+                    pd.dismiss();
                     Toast.makeText(Login.this, "API Call Failure "+t, Toast.LENGTH_SHORT).show();
 
                 }

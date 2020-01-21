@@ -35,4 +35,10 @@
     <style name="Widget.Shrine.Button.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
+    <style name="CustomAlert" parent="android:Theme.DeviceDefault.Dialog">
+        <item name="DialogTitleAppearance">@android:style/TextAppearance.Medium</item>
+        <item name="DialogTitleText">Loading…</item>
+        <item name="DialogSpotColor">@color/colorPrimaryDark</item>
+        <item name="DialogSpotCount">5</item>
+    </style>
 </resources>

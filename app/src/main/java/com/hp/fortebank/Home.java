@@ -1,5 +1,6 @@
 package com.hp.fortebank;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,7 +11,10 @@ import androidx.cardview.widget.CardView;
 
 import com.harishpadmanabh.apppreferences.AppPreferences;
 import com.hp.fortebank.Dashboard.Benificiary;
+import com.hp.fortebank.Dashboard.History;
 import com.hp.fortebank.Dashboard.Withdraw;
+
+import dmax.dialog.SpotsDialog;
 
 public class Home extends AppCompatActivity {
 
@@ -22,6 +26,8 @@ public class Home extends AppCompatActivity {
     private CardView transactionsCard;
     private CardView benificarycard;
     private AppPreferences appPreferences;
+    private AlertDialog pd;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +35,10 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         initView();
         appPreferences = AppPreferences.getInstance(this, getResources().getString(R.string.app_name));
+        pd = new SpotsDialog(this,R.style.CustomAlert);
+        pd.show();
         setDetails();
+
 
     }
 
@@ -38,6 +47,7 @@ public class Home extends AppCompatActivity {
         Accnum.setText("Acc No. "+appPreferences.getData("uaccno"));
         Phnnum.setText("Phone No. "+appPreferences.getData("uphone"));
         AccBal.setText("Account Balance : "+appPreferences.getData("ubal")+" Rs");
+        pd.dismiss();
 
 
     }
@@ -58,6 +68,11 @@ public class Home extends AppCompatActivity {
 
     public void benificiaryClicked(View view) {
         startActivity(new Intent(Home.this, Benlist.class));
+
+    }
+
+    public void transactionClick(View view) {
+        startActivity(new Intent(Home.this, History.class));
 
     }
 }

@@ -1,5 +1,7 @@
 package com.hp.fortebank.Dashboard;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -11,10 +13,12 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.harishpadmanabh.apppreferences.AppPreferences;
+import com.hp.fortebank.Benlist;
 import com.hp.fortebank.R;
 import com.hp.fortebank.Retro.Retro;
 import com.hp.fortebank.models.BenificiaryModel;
 
+import dmax.dialog.SpotsDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -28,12 +32,16 @@ public class Benificiary extends AppCompatActivity {
     private TextInputLayout ifsc;
     private MaterialButton addButton;
     private AppPreferences appPreferences;
+    private AlertDialog pd;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_benificiary);
         initView();
+        pd = new SpotsDialog(this,R.style.CustomAlert);
+
         appPreferences = AppPreferences.getInstance(this, getResources().getString(R.string.app_name));
 
     }
@@ -49,6 +57,7 @@ public class Benificiary extends AppCompatActivity {
         }
         else
         {
+            pd.show();
             new Retro().getApi().BENIFICIARY_MODEL_CALL(appPreferences.getData("uid"),
                     name.getEditText().getText().toString(),
                     bank.getEditText().getText().toString(),
@@ -58,13 +67,15 @@ public class Benificiary extends AppCompatActivity {
                 public void onResponse(Call<BenificiaryModel> call, Response<BenificiaryModel> response) {
                     BenificiaryModel benificiaryModel=response.body();
                     if(benificiaryModel.getStatus().equalsIgnoreCase("success")){
+                        pd.dismiss();
                         Snackbar.make(view,  name.getEditText().getText().toString()+" has been aded to your Benificiary.", BaseTransientBottomBar.LENGTH_SHORT).show();
 
-                        view.setEnabled(false);
+                        startActivity(new Intent(Benificiary.this, Benlist.class));
 
                     }
                     else
-                    {                        Snackbar.make(view,  "Something Wemt wrong", BaseTransientBottomBar.LENGTH_SHORT).show();
+                    {   pd.dismiss();
+                        Snackbar.make(view,  "Something Wemt wrong", BaseTransientBottomBar.LENGTH_SHORT).show();
 
 
                     }
@@ -72,6 +83,7 @@ public class Benificiary extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<BenificiaryModel> call, Throwable t) {
+                    pd.dismiss();
                     Snackbar.make(view,"Api Failure "+t, BaseTransientBottomBar.LENGTH_SHORT).show();
 
                 }

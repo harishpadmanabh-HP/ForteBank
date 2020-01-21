@@ -2,14 +2,12 @@ package com.hp.fortebank.Retro;
 
 
 import com.hp.fortebank.models.BenificiaryModel;
+import com.hp.fortebank.models.HistoryModel;
 import com.hp.fortebank.models.LoginModel;
 import com.hp.fortebank.models.OTPModel;
 
 import retrofit2.Call;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface Apis {
@@ -30,6 +28,8 @@ public interface Apis {
                                                   @Query("branch") String branch,
                                                   @Query("ifsc") String ifsc);
 
+    @GET("transaction_history.php?")
+    Call<HistoryModel> HISTORY_MODEL_CALL(@Query("id") String id);
 
 
 }

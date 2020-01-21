@@ -1,9 +1,11 @@
 package com.hp.fortebank;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,6 +28,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
+import dmax.dialog.SpotsDialog;
 
 public class Benlist extends AppCompatActivity {
 
@@ -35,14 +38,15 @@ public class Benlist extends AppCompatActivity {
     ArrayList<String> name,accno;
     private AppPreferences appPreferences;
     String API="http://srishti-systems.info/projects/ForteBank/api/view_beneficiary.php?";
-
+    AlertDialog pd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_benlist);
         appPreferences = AppPreferences.getInstance(this, getResources().getString(R.string.app_name));
-
+        pd = new SpotsDialog(this,R.style.CustomAlert);
         initView();
+        pd.show();
         asyncHttpClient=new AsyncHttpClient();
         requestParams=new RequestParams();
         name=new ArrayList<>();
@@ -61,7 +65,7 @@ public class Benlist extends AppCompatActivity {
                 if(status.equalsIgnoreCase("success"))
                 {
                     try {
-                        JSONArray details=response.getJSONArray("Beneficiary Details");
+                        JSONArray details=response.getJSONArray("Beneficiary_Details");
                         for(int i=0;i<details.length();i++)
                         {
                             JSONObject object=details.getJSONObject(i);
@@ -71,16 +75,21 @@ public class Benlist extends AppCompatActivity {
                             Log.e("ifsc",object.getString("ifsc"));
 
                         }
+
                         LinearLayoutManager verticalLayoutmanager
                                 = new LinearLayoutManager(Benlist.this, RecyclerView.VERTICAL, false);
                         benlist.setLayoutManager(verticalLayoutmanager);
                         benlist.setAdapter(new BenificiaryAdapter(name,accno));
+                        pd.dismiss();
                     } catch (JSONException e) {
+                        pd.dismiss();
+                        Toast.makeText(Benlist.this, "Something went wrong.", Toast.LENGTH_SHORT).show();
                         e.printStackTrace();
                     }
 
                 }else
                 {
+                    pd.dismiss();
                     Snackbar.make(benlist,"No Benificiary Found . Add One?", BaseTransientBottomBar.LENGTH_SHORT).show();
                 }
             }
@@ -96,5 +105,61 @@ public class Benlist extends AppCompatActivity {
 
     public void fabclick(View view) {
         startActivity(new Intent(getApplicationContext(), Benificiary.class));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.e("HOME","ONRESUME ENTERED");
+        pd.show();
+        asyncHttpClient=new AsyncHttpClient();
+        requestParams=new RequestParams();
+        name=new ArrayList<>();
+        accno=new ArrayList<>();
+        requestParams.put("id",appPreferences.getData("uid"));
+        asyncHttpClient.get(API,requestParams,new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                String status= null;
+                try {
+                    status = response.getString("status");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if(status.equalsIgnoreCase("success"))
+                {
+                    try {
+                        JSONArray details=response.getJSONArray("Beneficiary_Details");
+                        for(int i=0;i<details.length();i++)
+                        {
+                            JSONObject object=details.getJSONObject(i);
+                            name.add(object.getString("name"));
+                            Log.e("name",object.getString("name"));
+                            accno.add(object.getString("ifsc"));
+                            Log.e("ifsc",object.getString("ifsc"));
+
+                        }
+
+                        LinearLayoutManager verticalLayoutmanager
+                                = new LinearLayoutManager(Benlist.this, RecyclerView.VERTICAL, false);
+                        benlist.setLayoutManager(verticalLayoutmanager);
+                        benlist.setAdapter(new BenificiaryAdapter(name,accno));
+                        pd.dismiss();
+                    } catch (JSONException e) {
+                        pd.dismiss();
+                        Toast.makeText(Benlist.this, "Something went wrong.", Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                    }
+
+                }else
+                {
+                    pd.dismiss();
+                    Snackbar.make(benlist,"No Benificiary Found . Add One?", BaseTransientBottomBar.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
     }
 }
