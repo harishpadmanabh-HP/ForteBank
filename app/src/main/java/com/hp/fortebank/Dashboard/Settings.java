@@ -41,6 +41,8 @@ public class Settings extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 appPreferences.saveDataBoolean("isloggedin",false);
+                appPreferences.saveDataBoolean("islocked",false);
+
                 startActivity(new Intent(Settings.this, MainActivity.class));
             }
         }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

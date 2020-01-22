@@ -13,7 +13,7 @@ import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
-    private int Delay=3000;
+    private int Delay=2000;
     private AppPreferences appPreferences;
     boolean loged=false;
     boolean locked=false;

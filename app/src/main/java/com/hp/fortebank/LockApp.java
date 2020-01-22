@@ -16,6 +16,7 @@ public class LockApp extends AppCompatActivity {
 
     Switch lockswitch;
     private AppPreferences appPreferences;
+    boolean islocked=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,10 @@ public class LockApp extends AppCompatActivity {
         lockswitch=findViewById(R.id.lockSwitch);
         appPreferences = AppPreferences.getInstance(this, getResources().getString(R.string.app_name));
 
+        islocked=appPreferences.getDataBoolean("islocked");
+        if(islocked)
+          lockswitch.setChecked(true);
+        else lockswitch.setChecked(false);
         lockswitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -49,7 +54,11 @@ public class LockApp extends AppCompatActivity {
                             dialogInterface.dismiss();
 
                         }
-                    }).create().show();
+                    }).setCancelable(false).create().show();
+                }else
+                {
+                    appPreferences.saveDataBoolean("islocked",false);
+
                 }
             }
         });
