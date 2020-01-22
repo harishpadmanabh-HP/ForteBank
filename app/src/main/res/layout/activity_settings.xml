@@ -12,6 +12,7 @@
         android:layout_margin="26dp"
         android:fontFamily="@font/josefin_bold"
         android:text="Settings"
+        android:onClick="LockClick"
         android:textColor="@color/colorPrimary"
         android:textSize="38dp"
          />

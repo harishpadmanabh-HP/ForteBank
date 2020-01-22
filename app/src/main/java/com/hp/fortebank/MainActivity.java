@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     private int Delay=3000;
     private AppPreferences appPreferences;
     boolean loged=false;
+    boolean locked=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +25,10 @@ public class MainActivity extends AppCompatActivity {
         appPreferences = AppPreferences.getInstance(this, getResources().getString(R.string.app_name));
        //auto login
         loged=appPreferences.getDataBoolean("isloggedin");
+        locked=appPreferences.getDataBoolean("islocked");
         Log.e("LOOGED IN", String.valueOf(loged));
+        Log.e("Locked IN", String.valueOf(locked));
+
         Timer RunSplash = new Timer();
 
         // Task to do when the timer ends
@@ -40,13 +44,17 @@ public class MainActivity extends AppCompatActivity {
 //                   finish();
 //                   startActivity(new Intent(getApplicationContext(),Login.class));
 
-                if(!loged) {
+                if(loged && locked) {
                     Intent myIntent = new Intent(getApplicationContext(),
-                            Login.class);
+                            PatternActivity.class);
                     startActivity(myIntent);
-                }else{
+                }else if(loged){
                     startActivity(new Intent(getApplicationContext(),Home.class));
+                }else if(!loged)
+                {
+                    startActivity(new Intent(getApplicationContext(),Login.class));
                 }
+                finish();
             }
         };
 

@@ -10,7 +10,9 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.harishpadmanabh.apppreferences.AppPreferences;
+import com.hp.fortebank.LockApp;
 import com.hp.fortebank.MainActivity;
+import com.hp.fortebank.PatternActivity;
 import com.hp.fortebank.R;
 
 public class Settings extends AppCompatActivity {
@@ -26,6 +28,8 @@ public class Settings extends AppCompatActivity {
     }
 
     public void lockappClick(View view) {
+        startActivity(new Intent(Settings.this, LockApp.class));
+
     }
 
     public void logoutClick(View view) {
@@ -45,5 +49,8 @@ public class Settings extends AppCompatActivity {
                 dialogInterface.dismiss();
             }
         }).create().show();
+    }
+
+    public void LockClick(View view) {
     }
 }
