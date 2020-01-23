@@ -1,10 +1,14 @@
 package com.hp.fortebank;
 
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -14,8 +18,14 @@ import com.hp.fortebank.Dashboard.Benificiary;
 import com.hp.fortebank.Dashboard.History;
 import com.hp.fortebank.Dashboard.Settings;
 import com.hp.fortebank.Dashboard.Withdraw;
+import com.hp.fortebank.Retro.Retro;
+import com.hp.fortebank.models.LoginModel;
+import com.hp.fortebank.models.UserDetailsModel;
 
 import dmax.dialog.SpotsDialog;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Home extends AppCompatActivity {
 
@@ -28,6 +38,8 @@ public class Home extends AppCompatActivity {
     private CardView benificarycard;
     private AppPreferences appPreferences;
     private AlertDialog pd;
+    String balance;
+    UserDetailsModel userDetailsModel;
 
 
     @Override
@@ -47,11 +59,27 @@ public class Home extends AppCompatActivity {
         Name.setText("Welcome "+appPreferences.getData("uname"));
         Accnum.setText("Acc No. "+appPreferences.getData("uaccno"));
         Phnnum.setText("Phone No. "+appPreferences.getData("uphone"));
-        AccBal.setText("Account Balance : "+appPreferences.getData("ubal")+" Rs");
+        new Retro().getApi().USER_DETAILS_MODEL_CALL(appPreferences.getData("uid")).enqueue(new Callback<UserDetailsModel>() {
+            @Override
+            public void onResponse(Call<UserDetailsModel> call, Response<UserDetailsModel> response) {
+                UserDetailsModel userDetailsModel=response.body();
+               if(userDetailsModel!=null)
+                AccBal.setText("Account Balance : "+userDetailsModel.getUser_Details().get(0).getBalance()+" Rs");
+              else
+                   Toast.makeText(Home.this, "no data found", Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onFailure(Call<UserDetailsModel> call, Throwable t) {
+
+            }
+        });
         pd.dismiss();
 
 
     }
+
 
     private void initView() {
         Name = (TextView) findViewById(R.id.Name);
@@ -81,5 +109,39 @@ public class Home extends AppCompatActivity {
         startActivity(new Intent(Home.this, Settings.class));
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Context context;
+        AlertDialog.Builder builder=new AlertDialog.Builder(Home.this);
+        builder.setTitle("Exit")
+                .setMessage("Do you want to exit ?")
+                .setPositiveButton("  Exit  ", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finishAffinity();
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        }).setCancelable(false).create().show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.e("OnResume","setdetails");
+        setDetails();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.e("onRestart","setdetails");
+
+        setDetails();
     }
 }

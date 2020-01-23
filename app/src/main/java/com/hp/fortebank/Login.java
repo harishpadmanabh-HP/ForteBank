@@ -79,6 +79,7 @@ public class Login extends AppCompatActivity {
                          pd.dismiss();
                          Toast.makeText(Login.this, "Login success", Toast.LENGTH_SHORT).show();
                          startActivity(new Intent(Login.this,Home.class));
+                         finish();
 
                     }else
                     {
