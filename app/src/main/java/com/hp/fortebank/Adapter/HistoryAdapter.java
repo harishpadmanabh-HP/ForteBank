@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.harishpadmanabh.apppreferences.AppPreferences;
 import com.hp.fortebank.R;
 import com.hp.fortebank.models.HistoryModel;
 

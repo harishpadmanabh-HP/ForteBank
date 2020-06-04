@@ -73,6 +73,9 @@ public class Home extends AppCompatActivity {
             @Override
             public void onFailure(Call<UserDetailsModel> call, Throwable t) {
 
+                Toast.makeText(Home.this, "Current Balance api failure "+t, Toast.LENGTH_SHORT).show();
+                pd.dismiss();
+
             }
         });
         pd.dismiss();

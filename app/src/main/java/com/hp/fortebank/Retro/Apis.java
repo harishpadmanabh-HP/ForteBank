@@ -5,6 +5,7 @@ import com.hp.fortebank.models.BenificiaryModel;
 import com.hp.fortebank.models.HistoryModel;
 import com.hp.fortebank.models.LoginModel;
 import com.hp.fortebank.models.OTPModel;
+import com.hp.fortebank.models.PayMoneyModel;
 import com.hp.fortebank.models.UserDetailsModel;
 
 import retrofit2.Call;
@@ -27,7 +28,8 @@ public interface Apis {
                                                   @Query("name") String name,
                                                   @Query("bank") String bank,
                                                   @Query("branch") String branch,
-                                                  @Query("ifsc") String ifsc);
+                                                  @Query("ifsc") String ifsc,
+                                                  @Query("phone") String phone);
 
     @GET("transaction_history.php?")
     Call<HistoryModel> HISTORY_MODEL_CALL(@Query("id") String id);
@@ -35,4 +37,9 @@ public interface Apis {
 
     @GET("user_details.php?")
     Call<UserDetailsModel> USER_DETAILS_MODEL_CALL(@Query("id") String id);
+
+    @GET("transaction.php?")
+    Call<PayMoneyModel> PAY_MONEY_MODEL_CALL(@Query("send_id") String send_id,
+                                             @Query("ben_id") String ben_id,
+                                             @Query("debit") String debit);
 }

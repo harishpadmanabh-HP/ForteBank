@@ -15,7 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Shrine"
         android:usesCleartextTraffic="true">
-        <activity android:name=".LockApp"></activity>
+        <activity android:name=".PayActivity.PayActivity"></activity>
+        <activity android:name=".SendMoney" />
+        <activity android:name=".LockApp" />
         <activity android:name=".PatternActivity" />
         <activity android:name=".Benlist" />
         <activity android:name=".Dashboard.History" />

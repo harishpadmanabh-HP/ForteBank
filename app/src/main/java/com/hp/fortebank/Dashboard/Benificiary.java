@@ -33,6 +33,7 @@ public class Benificiary extends AppCompatActivity {
     private MaterialButton addButton;
     private AppPreferences appPreferences;
     private AlertDialog pd;
+    private TextInputLayout phone;
 
 
     @Override
@@ -40,7 +41,7 @@ public class Benificiary extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_benificiary);
         initView();
-        pd = new SpotsDialog(this,R.style.CustomAlert);
+        pd = new SpotsDialog(this, R.style.CustomAlert);
 
         appPreferences = AppPreferences.getInstance(this, getResources().getString(R.string.app_name));
 
@@ -48,34 +49,33 @@ public class Benificiary extends AppCompatActivity {
 
     public void addBenificiaryClicked(final View view) {
 
-        if(name.getEditText().getText().toString().equals("")||
-                bank.getEditText().getText().toString().equals("")||
-                branch.getEditText().getText().toString().equals("")||
-                ifsc.getEditText().getText().toString().equals(""))
-        {
-            Snackbar.make(view,"Fill All Fields", BaseTransientBottomBar.LENGTH_SHORT).show();
-        }
-        else
-        {
+        if (name.getEditText().getText().toString().equals("") ||
+                bank.getEditText().getText().toString().equals("") ||
+                branch.getEditText().getText().toString().equals("") ||
+                phone.getEditText().getText().toString().equals("") ||
+
+                ifsc.getEditText().getText().toString().equals("")) {
+            Snackbar.make(view, "Fill All Fields", BaseTransientBottomBar.LENGTH_SHORT).show();
+        } else {
             pd.show();
             new Retro().getApi().BENIFICIARY_MODEL_CALL(appPreferences.getData("uid"),
                     name.getEditText().getText().toString(),
                     bank.getEditText().getText().toString(),
                     branch.getEditText().getText().toString(),
-                    ifsc.getEditText().getText().toString()).enqueue(new Callback<BenificiaryModel>() {
+                    ifsc.getEditText().getText().toString(),
+                    phone.getEditText().getText().toString()).enqueue(new Callback<BenificiaryModel>() {
                 @Override
                 public void onResponse(Call<BenificiaryModel> call, Response<BenificiaryModel> response) {
-                    BenificiaryModel benificiaryModel=response.body();
-                    if(benificiaryModel.getStatus().equalsIgnoreCase("success")){
+                    BenificiaryModel benificiaryModel = response.body();
+                    if (benificiaryModel.getStatus().equalsIgnoreCase("success")) {
                         pd.dismiss();
-                        Snackbar.make(view,  name.getEditText().getText().toString()+" has been aded to your Benificiary.", BaseTransientBottomBar.LENGTH_SHORT).show();
+                        Snackbar.make(view, name.getEditText().getText().toString() + " has been aded to your Benificiary.", BaseTransientBottomBar.LENGTH_SHORT).show();
 
                         startActivity(new Intent(Benificiary.this, Benlist.class));
 
-                    }
-                    else
-                    {   pd.dismiss();
-                        Snackbar.make(view,  "Something Wemt wrong", BaseTransientBottomBar.LENGTH_SHORT).show();
+                    } else {
+                        pd.dismiss();
+                        Snackbar.make(view, "Something Went wrong."+benificiaryModel.getStatus(), BaseTransientBottomBar.LENGTH_SHORT).show();
 
 
                     }
@@ -84,7 +84,7 @@ public class Benificiary extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<BenificiaryModel> call, Throwable t) {
                     pd.dismiss();
-                    Snackbar.make(view,"Api Failure "+t, BaseTransientBottomBar.LENGTH_SHORT).show();
+                    Snackbar.make(view, "Api Failure " + t, BaseTransientBottomBar.LENGTH_SHORT).show();
 
                 }
             });
@@ -98,5 +98,6 @@ public class Benificiary extends AppCompatActivity {
         pswdEdttxt = (TextInputEditText) findViewById(R.id.pswdEdttxt);
         ifsc = (TextInputLayout) findViewById(R.id.ifsc);
         addButton = (MaterialButton) findViewById(R.id.add_button);
+        phone = findViewById(R.id.phone);
     }
 }

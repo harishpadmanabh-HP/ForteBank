@@ -11,6 +11,7 @@ public class Retro {
         Retrofit retrofit=new Retrofit.Builder()
                 .baseUrl("http://srishti-systems.info/projects/ForteBank/api/")
                 .addConverterFactory(GsonConverterFactory.create())
+
                 .build();
 
         //connect api class with this builder
