@@ -53,6 +53,13 @@ public class Benlist extends AppCompatActivity {
         accno=new ArrayList<>();
         ben_id=new ArrayList<>();
         user_id=new ArrayList<>();
+
+        populateBenificiary();
+
+
+    }
+
+    private void populateBenificiary() {
         requestParams.put("id",appPreferences.getData("uid"));
         asyncHttpClient.get(API,requestParams,new JsonHttpResponseHandler(){
             @Override
@@ -168,4 +175,10 @@ public class Benlist extends AppCompatActivity {
 //
 //
 //    }
+
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(getApplicationContext(),Home.class));
+    }
 }
