@@ -54,17 +54,22 @@ public class Benlist extends AppCompatActivity {
         ben_id=new ArrayList<>();
         user_id=new ArrayList<>();
 
-        populateBenificiary();
+        //populateBenificiary();
 
 
     }
 
     private void populateBenificiary() {
+        name.clear();
+        accno.clear();
+        ben_id.clear();
+        user_id.clear();
         requestParams.put("id",appPreferences.getData("uid"));
         asyncHttpClient.get(API,requestParams,new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
+                Log.e("Ben Response",response.toString());
                 String status= null;
                 try {
                     status = response.getString("status");
@@ -85,7 +90,7 @@ public class Benlist extends AppCompatActivity {
                             ben_id.add(object.getString("ben_id"));
                             Log.e("ben id",object.getString("ben_id"));
                             user_id.add(object.getString("user_id"));
-                            Log.e("ben id",object.getString("user_id"));
+                            Log.e("user id",object.getString("user_id"));
 
                         }
 
@@ -120,62 +125,12 @@ public class Benlist extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(), Benificiary.class));
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        Log.e("HOME","ONRESUME ENTERED");
-//        pd.show();
-//        asyncHttpClient=new AsyncHttpClient();
-//        requestParams=new RequestParams();
-//        name=new ArrayList<>();
-//        accno=new ArrayList<>();
-//        requestParams.put("id",appPreferences.getData("uid"));
-//        asyncHttpClient.get(API,requestParams,new JsonHttpResponseHandler(){
-//            @Override
-//            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-//                super.onSuccess(statusCode, headers, response);
-//                String status= null;
-//                try {
-//                    status = response.getString("status");
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//                if(status.equalsIgnoreCase("success"))
-//                {
-//                    try {
-//                        JSONArray details=response.getJSONArray("Beneficiary_Details");
-//                        for(int i=0;i<details.length();i++)
-//                        {
-//                            JSONObject object=details.getJSONObject(i);
-//                            name.add(object.getString("name"));
-//                            Log.e("name",object.getString("name"));
-//                            accno.add(object.getString("ifsc"));
-//                            Log.e("ifsc",object.getString("ifsc"));
-//
-//                        }
-//
-//                        LinearLayoutManager verticalLayoutmanager
-//                                = new LinearLayoutManager(Benlist.this, RecyclerView.VERTICAL, false);
-//                        benlist.setLayoutManager(verticalLayoutmanager);
-//                        benlist.setAdapter(new BenificiaryAdapter(name,accno));
-//                        pd.dismiss();
-//                    } catch (JSONException e) {
-//                        pd.dismiss();
-//                        Toast.makeText(Benlist.this, "Something went wrong.", Toast.LENGTH_SHORT).show();
-//                        e.printStackTrace();
-//                    }
-//
-//                }else
-//                {
-//                    pd.dismiss();
-//                    Snackbar.make(benlist,"No Benificiary Found . Add One?", BaseTransientBottomBar.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
-//
-//
-//    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        populateBenificiary();
+    }
 
     @Override
     public void onBackPressed() {

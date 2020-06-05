@@ -47,13 +47,14 @@ class PayActivity : AppCompatActivity() {
                     override fun onResponse(call: Call<PayMoneyModel>, response: Response<PayMoneyModel>) {
 
                         payMoneyModel =response.body()
+                        Log.e("PAY STATUS : ",payMoneyModel.status)
                         if(payMoneyModel.status.equals("success")) {
-                            Toast.makeText(this@PayActivity, "Payment Successfull", Toast.LENGTH_LONG)
+                            Toast.makeText(this@PayActivity, "Payment Successfull", Toast.LENGTH_LONG).show()
 
                             startActivity(Intent(this@PayActivity,Benlist::class.java))
                         }else
                         {
-                            Toast.makeText(this@PayActivity,"Payment not successfull",Toast.LENGTH_LONG)
+                            Toast.makeText(this@PayActivity,"Payment not successfull",Toast.LENGTH_LONG).show()
 
                         }
 
@@ -61,7 +62,7 @@ class PayActivity : AppCompatActivity() {
                     }
                     override fun onFailure(call: Call<PayMoneyModel>, t: Throwable) {
 
-                        Toast.makeText(this@PayActivity,"Pay api failure $t",Toast.LENGTH_LONG)
+                        Toast.makeText(this@PayActivity,"Pay api failure $t",Toast.LENGTH_LONG).show()
 
                     }
                 })
