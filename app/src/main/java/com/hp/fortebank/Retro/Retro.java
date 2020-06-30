@@ -8,9 +8,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Retro {
     // create a method which returns our api interface class
     public Apis getApi() {
-        //logging requests and responses
+        //logging requests and responses in verbose
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
         //build retrofit object
         Retrofit retrofit = new Retrofit.Builder()
