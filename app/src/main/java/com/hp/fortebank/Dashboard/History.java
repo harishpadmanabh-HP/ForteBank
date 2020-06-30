@@ -76,11 +76,17 @@ public class History extends AppCompatActivity {
             @Override
             public void onResponse(Call<HistoryModel> call, Response<HistoryModel> response) {
                 HistoryModel historyModel=response.body();
-                LinearLayoutManager verticalLayoutmanager
-                        = new LinearLayoutManager(History.this, RecyclerView.VERTICAL, false);
-                lv.setLayoutManager(verticalLayoutmanager);
-                lv.setAdapter(new HistoryAdapter(historyModel));
-                pd.dismiss();
+                if(historyModel.getStatus().equals("success")) {
+                    LinearLayoutManager verticalLayoutmanager
+                            = new LinearLayoutManager(History.this, RecyclerView.VERTICAL, false);
+                    lv.setLayoutManager(verticalLayoutmanager);
+                    lv.setAdapter(new HistoryAdapter(historyModel));
+                    pd.dismiss();
+                }else{
+                    pd.dismiss();
+
+                    Toast.makeText(History.this, "No transactions found.", Toast.LENGTH_SHORT).show();
+                }
 
 
             }

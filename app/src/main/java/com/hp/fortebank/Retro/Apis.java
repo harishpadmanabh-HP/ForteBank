@@ -24,7 +24,7 @@ public interface Apis {
                                   @Query("id") String id);
 
     @GET("beneficiary_account.php?")
-    Call<BenificiaryModel> BENIFICIARY_MODEL_CALL(@Query("id") String id,
+    Call<BenificiaryModel> BENIFICIARY_MODEL_CALL(@Query("user_id") String id,
                                                   @Query("name") String name,
                                                   @Query("bank") String bank,
                                                   @Query("branch") String branch,

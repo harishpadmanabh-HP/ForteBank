@@ -42,7 +42,14 @@ class PayActivity : AppCompatActivity() {
 
             sendButton.setOnClickListener{
 
-                Retro().api.PAY_MONEY_MODEL_CALL(appPreferences.getData("senders_id"),
+                Log.e("PAY FN","called")
+                Log.e("sender id",appPreferences.getData("uid"))
+                Log.e("ben id for pay ",appPreferences.getData("recievers_id"))
+                Log.e("pay money ",money.text.toString())
+
+
+
+                Retro().api.PAY_MONEY_MODEL_CALL(appPreferences.getData("uid"),
                         appPreferences.getData("recievers_id"),money.text.toString()).enqueue(object : Callback<PayMoneyModel> {
                     override fun onResponse(call: Call<PayMoneyModel>, response: Response<PayMoneyModel>) {
 

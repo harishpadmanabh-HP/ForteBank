@@ -1,22 +1,26 @@
 package com.hp.fortebank.Retro;
 
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Retro {
     // create a method which returns our api interface class
-    public Apis getApi()
-    {
+    public Apis getApi() {
+        //logging requests and responses
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
         //build retrofit object
-        Retrofit retrofit=new Retrofit.Builder()
+        Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://srishti-systems.info/projects/ForteBank/api/")
                 .addConverterFactory(GsonConverterFactory.create())
-
-                .build();
+                .client(client).build();
 
         //connect api class with this builder
 
-        Apis apis=retrofit.create(Apis.class);
+        Apis apis = retrofit.create(Apis.class);
         return apis;
     }
 }

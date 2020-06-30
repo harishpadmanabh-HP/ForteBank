@@ -55,7 +55,7 @@ public class BenificiaryAdapter extends RecyclerView.Adapter<BenificiaryAdapter.
             @Override
             public void onClick(View v) {
                 appPreferences.saveData("recievers_name",namelist.get(position));
-                appPreferences.saveData("senders_id",userID.get(position));
+              //  appPreferences.saveData("senders_id",userID.get(position));
                 appPreferences.saveData("recievers_id",benID.get(position));
                 context.startActivity(new Intent(context, PayActivity.class));
 

@@ -11,7 +11,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class PayViewModel(context: Context) : ViewModel() {
+class PayViewModel(var context: Context) : ViewModel() {
 
     var appPreferences: AppPreferences = AppPreferences(context, context.resources.getString(R.string.app_name))
 
@@ -27,11 +27,7 @@ class PayViewModel(context: Context) : ViewModel() {
     }
 
 
-    fun transactMoney(senderId : String, benId : String,debit : String)
-    {
 
-
-    }
 
 
 }
