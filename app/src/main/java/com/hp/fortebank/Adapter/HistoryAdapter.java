@@ -31,7 +31,15 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
     public void onBindViewHolder(@NonNull HistoryVH holder, int position) {
 
         holder.date.setText(historyModel.getTransaction_History().get(position).getDebited_On());
-        holder.amt.setText(historyModel.getTransaction_History().get(position).getDebited_Amount()+" Rs");
+        if(historyModel.getTransaction_History().get(position).getStatus().equals("Credit")){
+            holder.amt.setText("+ "+historyModel.getTransaction_History().get(position).getAmount()+" Rs");
+
+        }else if(historyModel.getTransaction_History().get(position).getStatus().equals("Debit")){
+
+
+            holder.amt.setText("- "+historyModel.getTransaction_History().get(position).getAmount()+" Rs");
+
+        }
 
     }
 
